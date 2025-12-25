@@ -51,7 +51,6 @@ export const useUserApi = {
             throw new Error(`Logout Error: ${error.message}`);
         }
 
-        localStorage.removeItem('token');
         return res.json();
     },
 
