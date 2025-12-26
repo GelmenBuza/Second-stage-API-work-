@@ -1,7 +1,9 @@
 import {useState} from "react";
 import {useUserApi} from "../services/useUserApi.js";
+import {useNavigate} from "react-router-dom";
 
 export default function FormAuth() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({email: "", password: ""})
@@ -10,21 +12,31 @@ export default function FormAuth() {
         const emailReg = /^[\w.+%-]+@[a-zA-Z\d.\-]+\.[a-zA-Z]{2,}$/;
         const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,}$/
         const newErrors = {email: '', password: ''}
+        let flag = true;
+
         if (!emailReg.test(email)) {
             newErrors.email = `email validate error`;
+            flag = false;
         }
         if (!passwordReg.test(password)) {
             newErrors.password = `password validate error`;
-
+            flag = false;
         }
         setErrors(newErrors);
+        return flag;
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        validate_data()
-        console.log(email, password)
-        // useUserApi.login(email, password)
+        if (validate_data()) {
+            navigate('/profile');
+            // const resp = useUserApi.login(email, password);
+            // if (resp.ok) {
+            //     history.push('/profile');
+            // } else {
+            //     throw new Error(resp.message);
+            // }
+        }
     }
 
     return (

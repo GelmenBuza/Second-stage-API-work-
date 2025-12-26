@@ -1,6 +1,9 @@
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useUserApi} from "../services/useUserApi.js";
 
 export default function FormReg() {
+    const navigate = useNavigate();
     const [name, setName] = useState('')
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,49 +25,66 @@ export default function FormReg() {
         const emailReg = /^[\w.+%-]+@[a-zA-Z\d.\-]+\.[a-zA-Z]{2,}$/;
         const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,}$/
         const newErrors = {name: '', email: '', password: '', age: '', gender: '', agree: '', confirmPassword: ''}
-
+        let flag = true;
         try {
             if (name[0].toUpperCase() !== name[0]) {
                 newErrors.name = 'The first character of the name must be a capital letter.'
+                flag = false;
             }
         } catch (error) {
             newErrors.name = 'Write your name.'
+            flag = false;
         }
 
         if (!emailReg.test(email)) {
             newErrors.email = `Invalid email address.`;
+            flag = false;
         }
         if (!passwordReg.test(password)) {
             newErrors.password = `Invalid password.`;
+            flag = false;
         }
         if (age < 2) {
             newErrors.age = `Your age is too young`;
+            flag = false;
         } else if (age > 150) {
             newErrors.age = `Your age is too old`;
+            flag = false;
         }
         if (!gender) {
             newErrors.gender = `Select your gender.`;
+            flag = false;
         }
         if (!agree) {
             newErrors.agree = `Agree to data processing.`;
+            flag = false;
         }
 
         if (password !== confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match.';
+            flag = false;
         }
         setErrors(newErrors);
+        console.log(flag);
+        return flag;
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        validate_data()
-        console.log(agree)
-        // useUserApi.login(email, password)
+        if (validate_data()) {
+            navigate('/login');
+            // const resp = useUserApi.registration(name, email, age, password);
+            // if (resp.ok) {
+            //     history.push('/');
+            // } else {
+            //     throw new Error(resp.message);
+            // }
+        }
     }
 
     return (
         <form id="Form" onSubmit={handleSubmit}>
-            {/*{!--Имя--}*/}
+            {/*--Имя--*/}
             <div className="mb-3">
                 <label htmlFor="name" className="form-label">Имя</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value.trim())}
@@ -73,7 +93,7 @@ export default function FormReg() {
                 {errors.name && (<div id="nameError" className="text-danger">{errors.name}</div>)}
             </div>
 
-            {/*{!--Email--}*/}
+            {/*--Email--*/}
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email</label>
                 <input type="text" value={email} onChange={(e) => setEmail(e.target.value.trim())}
@@ -83,7 +103,7 @@ export default function FormReg() {
 
             </div>
 
-            {/*{!--Возраст--}*/}
+            {/*--Возраст--*/}
             <div className="mb-3">
                 <label htmlFor="age" className="form-label">Возраст</label>
                 <input type="number" value={age} onChange={(e) => setAge(e.target.value.trim())}
@@ -93,7 +113,7 @@ export default function FormReg() {
 
             </div>
 
-            {/*{!--Пол--}*/}
+            {/*--Пол--*/}
             <div className="mb-3">
                 <label className="form-label">Пол</label>
                 <div>
@@ -111,7 +131,7 @@ export default function FormReg() {
                 {errors.gender && (<div id="genderError" className="text-danger">{errors.gender}</div>)}
             </div>
 
-            {/*{!--Пароль--}*/}
+            {/*--Пароль--*/}
             <div className="mb-3">
                 <label htmlFor="password" className="form-label">Пароль</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value.trim())}
@@ -121,7 +141,7 @@ export default function FormReg() {
 
             </div>
 
-            {/*{!--Повтор пароля --}*/}
+            {/*--Повтор пароля --*/}
             <div className="mb-3">
                 <label htmlFor="confirmPassword" className="form-label">Повторите пароль</label>
                 <input type="password" value={confirmPassword}
@@ -132,7 +152,7 @@ export default function FormReg() {
                     <div id="confirmPasswordError" className="text-danger">{errors.confirmPassword}</div>)}
             </div>
 
-            {/*{!--Согласие на обработку данных --}*/}
+            {/*--Согласие на обработку данных --*/}
             <div className="mb-3 form-check">
                 <input type="checkbox" value={agree} onChange={(e) => setAgree(!agree)} className="form-check-input"
                        id="agree" name="agree"/>
@@ -140,7 +160,7 @@ export default function FormReg() {
                 {errors.agree && (<div id="agreeError" className="text-danger">{errors.agree}</div>)}
             </div>
 
-            {/*{!--Кнопка регистрации --}*/}
+            {/*--Кнопка регистрации --*/}
             <button type="submit" className="btn btn-primary w-100">Зарегистрироваться</button>
         </form>
     )

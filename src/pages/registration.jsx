@@ -10,7 +10,7 @@ export default function Registration() {
                             <h3 className="text-center">Регистрация</h3>
                         </div>
                         <div className="card-body">
-                            {/*{ <!-- Форма регистрации -->}*/}
+                            {/*-- Форма регистрации --*/}
                             <FormReg></FormReg>
                         </div>
                     </div>
