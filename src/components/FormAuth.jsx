@@ -1,8 +1,10 @@
 import {useState} from "react";
 import {useUserApi} from "../services/useUserApi.js";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../context/useAuth.jsx";
 
 export default function FormAuth() {
+    const {login, error} = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -25,17 +27,19 @@ export default function FormAuth() {
         setErrors(newErrors);
         return flag;
     }
+    // test data
+    // email: test@mail.cop
+    // password: aA1a
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validate_data()) {
-            navigate('/profile');
-            // const resp = useUserApi.login(email, password);
-            // if (resp.ok) {
-            //     history.push('/profile');
-            // } else {
-            //     throw new Error(resp.message);
-            // }
+            const resp = await login(email, password);
+            if (resp.data.code < 300 && resp.data.code > 199) {
+                navigate('/profile');
+            } else {
+                throw new Error(resp.message);
+            }
         }
     }
 

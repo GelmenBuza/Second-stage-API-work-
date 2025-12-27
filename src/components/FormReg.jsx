@@ -1,8 +1,10 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useUserApi} from "../services/useUserApi.js";
+import {useAuth} from "../context/useAuth.jsx";
 
-export default function FormReg() {
+function FormReg() {
+    const {register, error} = useAuth()
     const navigate = useNavigate();
     const [name, setName] = useState('')
     const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ export default function FormReg() {
 
     const validate_data = () => {
         const emailReg = /^[\w.+%-]+@[a-zA-Z\d.\-]+\.[a-zA-Z]{2,}$/;
-        const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,}$/
+        const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,}$/;
         const newErrors = {name: '', email: '', password: '', age: '', gender: '', agree: '', confirmPassword: ''}
         let flag = true;
         try {
@@ -69,16 +71,15 @@ export default function FormReg() {
         return flag;
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validate_data()) {
-            navigate('/login');
-            // const resp = useUserApi.registration(name, email, age, password);
-            // if (resp.ok) {
-            //     history.push('/');
-            // } else {
-            //     throw new Error(resp.message);
-            // }
+            const resp = await register(email, password, age, name)
+            if (resp.data.code < 300 && resp.data.code > 199) {
+                navigate('/login');
+            } else {
+                throw new Error(resp.message);
+            }
         }
     }
 
@@ -154,7 +155,7 @@ export default function FormReg() {
 
             {/*--Согласие на обработку данных --*/}
             <div className="mb-3 form-check">
-                <input type="checkbox" value={agree} onChange={(e) => setAgree(!agree)} className="form-check-input"
+                <input type="checkbox" onChange={(e) => setAgree(!agree)} className="form-check-input"
                        id="agree" name="agree"/>
                 <label className="form-check-label" htmlFor="agree">Я согласен на обработку персональных данных</label>
                 {errors.agree && (<div id="agreeError" className="text-danger">{errors.agree}</div>)}
@@ -165,3 +166,5 @@ export default function FormReg() {
         </form>
     )
 }
+
+export default FormReg

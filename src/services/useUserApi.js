@@ -3,14 +3,14 @@ const BASE_URL = 'https://reader-api.pasdel.ru/api'
 const getAuthHead = () => {
     const token = localStorage.getItem('token')
     return {
-        'ContentType': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
     }
 }
 
 const getBaseHead = () => {
     return {
-        'ContentType': 'application/json',
+        'Content-Type': 'application/json',
     }
 }
 
@@ -29,6 +29,7 @@ export const useUserApi = {
     },
 
     registration: async (name, email, age, password) => {
+        console.log(name, email, age, password);
         const res = await fetch(`${BASE_URL}/registration`, {
             method: 'POST',
             headers: getBaseHead(),

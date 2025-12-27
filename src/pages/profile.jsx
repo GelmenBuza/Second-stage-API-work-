@@ -1,4 +1,9 @@
+import {useAuth} from "../context/useAuth.jsx";
+
 export default function ProfilePage() {
+
+    const {user} = useAuth()
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -13,8 +18,8 @@ export default function ProfilePage() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Информация о пользователе</h5>
-                            <p className="card-text"><strong>Имя:</strong> Алексей </p>
-                            <p className="card-text"><strong>Email:</strong> ivan@example.com </p>
+                            <p className="card-text"><strong>Имя:</strong> {user.name} </p>
+                            <p className="card-text"><strong>Email:</strong> {user.email} </p>
                         </div>
                     </div>
                 </div>

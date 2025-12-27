@@ -3,14 +3,14 @@ const BASE_URL = 'https://reader-api.pasdel.ru/api/books'
 const getAuthHead = () => {
     const token = localStorage.getItem('token')
     return {
-        'ContentType': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
     }
 }
 
 const getBaseHead = () => {
     return {
-        'ContentType': 'application/json',
+        'Content-Type': 'application/json',
     }
 }
 

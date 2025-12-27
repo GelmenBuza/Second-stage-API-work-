@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, useContext, useState} from "react";
 import {useUserApi} from "../services/useUserApi.js";
 
 export const AuthContext = createContext();
@@ -21,17 +21,19 @@ export function AuthProvider({children}) {
             const {token, user} = res.data;
             localStorage.setItem('token', token);
             setUser(user);
+            return res;
         } catch (e) {
             setError(e.message);
             return {success: false, error: e.message};
         }
     }
-    const register = async (email, password, age, name) => {
+    const register = async (email, password, age, name  ) => {
         try {
             setError('');
             const res = await useUserApi.registration(name, email, age, password);
             const {user} = res.data;
             setUser(user);
+            return res;
         } catch (e) {
             setError(e.message);
             return {success: false, error: e.message};
