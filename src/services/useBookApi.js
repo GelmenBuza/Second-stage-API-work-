@@ -15,11 +15,21 @@ const getBaseHead = () => {
 }
 
 export const useBookApi = {
-    create: async (formData) => {
+    create: async (bookData) => {
+        const token = localStorage.getItem('token')
+        const formData = new FormData()
+        formData.append('title', bookData.title)
+        formData.append('author', bookData.author)
+        formData.append('description', bookData.description)
+        formData.append('file', bookData.file)
+
+
         const res = await fetch(`${BASE_URL}/upload`, {
             method: 'POST',
-            headers: getAuthHead(),
-            body: JSON.stringify(formData),
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData,
         })
         if (!res.ok) {
             const error = await res.json();

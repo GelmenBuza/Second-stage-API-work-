@@ -53,7 +53,7 @@ export default function FormAuth() {
                 {errors.email && (<div id="emailError" className="text-danger">{errors.email}</div>)}
             </div>
             <div className="mb-3">
-                <label htmlFor="password" className="form-label">Пароль</label>a
+                <label htmlFor="password" className="form-label">Пароль</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                        className={errors.password ? "form-control form-control--error" : "form-control"} id="password"
                        name="password"/>

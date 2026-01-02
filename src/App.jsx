@@ -13,9 +13,9 @@ function App() {
 
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Main_page/>}/>
-                    <Route path='/login' element={<Registration/>}/>
-                    <Route path='/profile' element={<ProfilePage/>}/>
+                    <Route path="/" element={<Registration/>}/>
+                    <Route path='/login' element={<Main_page/>}/>
+                    <Route path='/profile' element={<ProfilePage/>}/>`
                     {/*<Route path='/catalog' element={}/>*/}
                     {/*<Route path='/read' element={}/>*/}
                     {/*<Route path='/admin' element={}/>*/}

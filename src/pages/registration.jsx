@@ -1,4 +1,5 @@
 import FormReg from "../components/FormReg.jsx";
+import {Link} from "react-router-dom";
 
 export default function Registration() {
     return (
@@ -12,6 +13,7 @@ export default function Registration() {
                         <div className="card-body">
                             {/*-- Форма регистрации --*/}
                             <FormReg></FormReg>
+                            <Link to='/login'>Уже есть аккаунт?</Link>
                         </div>
                     </div>
                 </div>

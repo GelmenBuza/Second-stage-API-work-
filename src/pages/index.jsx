@@ -1,4 +1,5 @@
 import FormAuth from '../components/FormAuth.jsx'
+import {Link} from "react-router-dom";
 
 export default function Main_page () {
     return (
@@ -11,6 +12,7 @@ export default function Main_page () {
                         </div>
                         <div className="card-body">
                             <FormAuth></FormAuth>
+                            <Link to='/'>Создать аккаунт</Link>
                         </div>
                     </div>
                 </div>
