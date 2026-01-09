@@ -43,7 +43,6 @@ export default function ProfilePage() {
         const {data} = await useBookApi.updateInfo(id, title, author, description)
         const newBook = data.book
         setBooks(prev => prev.map((book) => book.id === newBook.id ? newBook : book));
-
     }
 
 

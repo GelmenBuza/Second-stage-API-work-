@@ -50,3 +50,11 @@ a {
 .not-found-container a {
     font-size: 1.2rem;
 }
+
+.book-card {
+    margin-bottom: 20px;
+}
+
+.add-book-form {
+    margin-bottom: 20px;
+}

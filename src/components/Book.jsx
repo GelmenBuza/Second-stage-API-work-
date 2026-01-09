@@ -1,14 +1,23 @@
-import {useEffect, useState} from "react";
-import {useBookApi} from "../services/useBookApi.js";
+import {useState} from "react";
+import {useAdminApi} from "../services/useAdminApi.js";
 
 export default function Book({type, id, book, confirmEdit = undefined, deleteBook = undefined}) {
     const [editing, setEditing] = useState(false);
     const [title, setTitle] = useState(book.title);
     const [author, setAuthor] = useState(book.author);
     const [description, setDescription] = useState(book.description);
+    const [is_public, setIs_public] = useState(book.is_public || false);
 
     const editBook = () => {
         setEditing(!editing);
+    }
+
+    const toggleStatus = async () => {
+        const res = useAdminApi.changeVisibility(id, is_public)
+            .then(setIs_public(!is_public))
+            .catch((err) => {
+                console.error(err)
+            });
     }
 
     return (
@@ -29,14 +38,14 @@ export default function Book({type, id, book, confirmEdit = undefined, deleteBoo
                 <div className="card-body">
                     {!editing && <h5 className="card-title">{title}</h5>}
                     {editing && <input className="form-control" type="text" value={`${title}`}
-                                       onChange={(e) => setTitle(e.target.value)} id="book-title-${formId}"/>}
+                                       onChange={(e) => setTitle(e.target.value)} id={`book-title-${id}`}/>}
                     {!editing && <h5 className="card-subtitle mb-2 text-muted">{author}</h5>}
                     {editing && <input className="form-control" type="text" value={`${author}`}
-                                       onChange={(e) => setAuthor(e.target.value)} id="book-author-${formId}"/>}
+                                       onChange={(e) => setAuthor(e.target.value)} id={`book-author-${id}`}/>}
                     {!editing && <h5 className="card-subtitle mb-2 text-muted">{description}</h5>}
                     {editing && <input className="form-control" type="text" value={`${description}`}
                                        onChange={(e) => setDescription(e.target.value)}
-                                       id="book-description-${formId}"/>}
+                                       id={`book-description-${id}`}/>}
                     {editing ? <button className="btn btn-warning btn-sm"
                                        onClick={() => {
                                            confirmEdit(id, title, author, description);
@@ -51,17 +60,33 @@ export default function Book({type, id, book, confirmEdit = undefined, deleteBoo
             {
                 type === 'admin' &&
                 <div className="card-body">
-                    <h5 className="card-title">Название книги</h5>
-                    <input className="form-control" type="text" id="book-title-${formId}"/>
-                    <h5 className="card-subtitle mb-2 text-muted">Автор</h5>
-                    <input className="form-control" type="text" id="book-author-${formId}"/>
-                    <h5 className="card-subtitle mb-2 text-muted">Описание</h5>
-                    <input className="form-control" type="text" id="book-description-${formId}"/>
+                    {!editing ? (<>
+                        <h5 className="card-title">{title}</h5>
+                        <h5 className="card-subtitle mb-2 text-muted">{author}</h5>
+                        <h5 className="card-subtitle mb-2 text-muted">{description}</h5>
+
+                    </>) : (
+                        <>
+                            <input className="form-control" type="text" id={`book-title-${id}`} value={`${title}`}
+                                   onChange={(e) => setTitle(e.target.value)}/>
+                            <input className="form-control" type="text" id={`book-author-${id}`} value={`${author}`}
+                                   onChange={(e) => setAuthor(e.target.value)}/>
+                            <input className="form-control" type="text" id={`book-description-${id}`}
+                                   value={`${description}`}
+                                   onChange={(e) => setDescription(e.target.value)}/>
+                        </>
+                    )}
+
                     <h5 className="card-subtitle mb-2 text-muted">Статус</h5>
-                    <p className="form-control" id="book-status-${formId}">Доступно</p>
-                    <button className="btn btn-warning btn-sm" onClick="editBook()">Редактировать</button>
-                    <button className="btn btn-danger btn-sm" onClick="deleteBook()">Удалить</button>
-                    <button className="btn btn-secondary btn-sm" onClick="toggleStatus()">Изменить статус</button>
+                    <p className="form-control"
+                       id={`book-status-${id}`}>{book.is_public ? "Доступно" : "Не доступно"}</p>
+                    {editing ?
+                        <button className="btn btn-warning btn-sm" onClick={() => confirmEdit()}>Подтвердить</button>
+                        :
+                        <button className="btn btn-warning btn-sm" onClick={() => editBook()}>Редактировать</button>
+                    }
+                    <button className="btn btn-danger btn-sm" onClick={() => deleteBook()}>Удалить</button>
+                    <button className="btn btn-secondary btn-sm" onClick={() => toggleStatus()}>Изменить статус</button>
                 </div>
             }
         </div>
