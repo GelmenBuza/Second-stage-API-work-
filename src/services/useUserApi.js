@@ -57,7 +57,6 @@ export const useUserApi = {
 
     getAllBooks: async () => {
         const res = await fetch(`${BASE_URL}/books`, {
-            method: 'GET',
             headers: getBaseHead(),
         })
         if (!res.ok) {
@@ -70,7 +69,6 @@ export const useUserApi = {
 
     searchBooks: async (value) => {
         const res = await fetch(`${BASE_URL}/books?search=${value}`, {
-            method: 'GET',
             headers: getBaseHead(),
         })
         if (!res.ok) {
@@ -83,7 +81,6 @@ export const useUserApi = {
 
     searchBookByAuthor: async (value) => {
         const res = await fetch(`${BASE_URL}/books?author=${value}`, {
-            method: 'GET',
             headers: getBaseHead(),
         })
         if (!res.ok) {
@@ -95,7 +92,6 @@ export const useUserApi = {
     },
     getBooksPagination: async (count, page) => {
         const res = await fetch(`${BASE_URL}/books`, {
-            method: 'GET',
             headers: getBaseHead(),
             body: JSON.stringify({count, page}),
         })
@@ -109,7 +105,6 @@ export const useUserApi = {
 
     getBookInfo: async (id) => {
         const res = await fetch(`${BASE_URL}/books/${id}`, {
-            method: 'GET',
             headers: getBaseHead(),
         })
         if (!res.ok) {
@@ -122,7 +117,6 @@ export const useUserApi = {
 
     getUserBooks: async () => {
         const res = await fetch(`${BASE_URL}/books`, {
-            method: 'GET',
             headers: getAuthHead(),
         })
         if (!res.ok) {
@@ -135,7 +129,6 @@ export const useUserApi = {
 
     getUserBookInfo: async (id) => {
         const res = await fetch(`${BASE_URL}/books/${id}`, {
-            method: 'GET',
             headers: getAuthHead(),
         })
         if (!res.ok) {
@@ -162,7 +155,6 @@ export const useUserApi = {
 
     getProgress: async (id) => {
         const res = await fetch(`${BASE_URL}/books/${id}/progress`, {
-            method: 'GET',
             headers: getAuthHead(),
         })
         if (!res.ok) {
@@ -175,7 +167,6 @@ export const useUserApi = {
 
     getAllReadBooks: async () => {
         const res = await fetch(`${BASE_URL}/books/progress`, {
-            method: 'GET',
             headers: getAuthHead(),
         })
         if (!res.ok) {
@@ -202,7 +193,6 @@ export const useUserApi = {
 
     getUserSettings: async () => {
         const res = await fetch(`${BASE_URL}/user/settings`, {
-            method: 'GET',
             headers: getAuthHead(),
         })
         if (!res.ok) {

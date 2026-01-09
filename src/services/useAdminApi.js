@@ -8,16 +8,9 @@ const getAuthHead = () => {
     }
 }
 
-const getBaseHead = () => {
-    return {
-        'Content-Type': 'application/json',
-    }
-}
-
 export const useAdminApi = {
     getAllBooks: async () => {
         const res = await fetch(`${BASE_URL}`, {
-            method: 'GET',
             headers: getAuthHead(),
         })
         if (!res.ok) {
@@ -35,7 +28,7 @@ export const useAdminApi = {
         })
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(`Create book Error: ${error.message}`);
+            throw new Error(`Change visibility book Error: ${error.message}`);
         }
         return res.json();
     },

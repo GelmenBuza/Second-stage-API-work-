@@ -8,12 +8,6 @@ const getAuthHead = () => {
     }
 }
 
-const getBaseHead = () => {
-    return {
-        'Content-Type': 'application/json',
-    }
-}
-
 export const useBookApi = {
     create: async (bookData) => {
         const token = localStorage.getItem('token')
@@ -45,7 +39,7 @@ export const useBookApi = {
         })
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(`Create book Error: ${error.message}`);
+            throw new Error(`Delete book Error: ${error.message}`);
         }
         return res.json();
     },
@@ -58,7 +52,7 @@ export const useBookApi = {
         })
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(`Create book Error: ${error.message}`);
+            throw new Error(`Update book info Error: ${error.message}`);
         }
         return res.json();
     }

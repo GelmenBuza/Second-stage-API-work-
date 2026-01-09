@@ -27,7 +27,7 @@ export function AuthProvider({children}) {
             return {success: false, error: e.message};
         }
     }
-    const register = async (email, password, age, name  ) => {
+    const register = async (email, password, age, name) => {
         try {
             setError('');
             const res = await useUserApi.registration(name, email, age, password);

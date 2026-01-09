@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useBookApi} from "../services/useBookApi.js";
 
-export default function Book({type, id, book, confirmEdit, deleteBook}) {
+export default function Book({type, id, book, confirmEdit = undefined, deleteBook = undefined}) {
     const [editing, setEditing] = useState(false);
     const [title, setTitle] = useState(book.title);
     const [author, setAuthor] = useState(book.author);
@@ -17,7 +17,7 @@ export default function Book({type, id, book, confirmEdit, deleteBook}) {
             {
                 type === 'catalog' &&
                 <div className="card-body">
-                    <h5 className="card-title">Заголовок книги</h5>
+                    <h5 className="card-title">{book.title}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{book.author}</h6>
                     <p className="card-text">{book.description}</p>
                     <a href="book.html" className="btn btn-primary">Читать</a>
@@ -42,8 +42,8 @@ export default function Book({type, id, book, confirmEdit, deleteBook}) {
                                            confirmEdit(id, title, author, description);
                                            setEditing(!editing);
                                        }}>Подтвердить</button> :
-                                           <button className="btn btn-warning btn-sm"
-                                           onClick={() => editBook()}>Редактировать</button>}
+                        <button className="btn btn-warning btn-sm"
+                                onClick={() => editBook()}>Редактировать</button>}
                     <button className="btn btn-danger btn-sm" onClick={() => deleteBook(id)}>Удалить</button>
                 </div>
             }
