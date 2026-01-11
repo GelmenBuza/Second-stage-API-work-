@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import Book from "../components/Book.jsx";
 import Header from "../components/Header.jsx";
 
-export default function CatalogPage() {
+export default function CatalogPage({setReadBookId}) {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
@@ -15,6 +15,15 @@ export default function CatalogPage() {
 
         fetchBooks();
     }, [])
+
+    const onRead = async (id) => {
+        const resp = await useUserApi.getBookInfo(id)
+        console.log(resp.data.book.file_url);
+        const url = resp.data.book.file_url;
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data.data); // Это и есть body книги
+    }
 
     return (
         <>
@@ -29,7 +38,7 @@ export default function CatalogPage() {
                     {/*  Книги сюда!!!*/}
                     {
                         books.map((book) => (
-                            <Book key={book.id} type='catalog' book={book}/>
+                            <Book key={book.id} id={book.id} type='catalog' book={book} onRead={onRead}/>
                         ))
                     }
                 </div>

@@ -58,3 +58,12 @@ a {
 .add-book-form {
     margin-bottom: 20px;
 }
+
+#book-content {
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow-y: auto;
+    height: 500px;
+}

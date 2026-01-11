@@ -8,9 +8,11 @@ import CatalogPage from "./pages/catalog.jsx";
 import DeniedPage from "./pages/denied.jsx";
 import NotFoundPage from "./pages/not-found.jsx";
 import ProtectedRoute from "./components/ProtectRoute.jsx";
+import Read from "./pages/read.jsx";
+import {useState} from "react";
 
 function App() {
-
+    const [readBookId, setReadBookId] = useState(null);
     return (
         <AuthProvider>
 
@@ -18,11 +20,11 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Registration/>}/>
                     <Route path='/login' element={<Main_page/>}/>
-                    <Route path='/catalog' element={<CatalogPage/>}/>
+                    <Route path='/catalog' element={<CatalogPage setReadBookId={setReadBookId}/>}/>
 
                     <Route element={<ProtectedRoute/>}>
                         <Route path='/profile' element={<ProfilePage/>}/>
-                        <Route path='/read' element={<ProfilePage/>}/>
+                        <Route path='/read' element={<Read id={readBookId}/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute type='admin'/>}>
